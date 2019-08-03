@@ -19,8 +19,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="900">
-              <caret line="142" column="82" selection-start-line="142" selection-start-column="82" selection-end-line="142" selection-end-column="82" />
+            <state relative-caret-position="253">
+              <caret line="11" column="22" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
               <folding>
                 <element signature="n#style#0;n#small#0;n#div#0;n#form#0;n#div#0;n#div#0;n#div#0;n#template#4;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#small#0;n#div#1;n#form#0;n#div#0;n#div#0;n#div#0;n#template#4;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -52,6 +52,9 @@
       <find>showTa</find>
     </findStrings>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
@@ -64,8 +67,8 @@
         <option value="$PROJECT_DIR$/js/post.js" />
         <option value="$PROJECT_DIR$/js/modal-comment.js" />
         <option value="$PROJECT_DIR$/js/main.js" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/create-post.js" />
+        <option value="$PROJECT_DIR$/index.html" />
       </list>
     </option>
   </component>
@@ -74,6 +77,7 @@
     <option name="width" value="1280" />
     <option name="height" value="819" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -125,16 +129,17 @@
       <updated>1562671224708</updated>
       <workItem from="1562671227340" duration="34992000" />
       <workItem from="1563251709863" duration="23000" />
+      <workItem from="1564838941020" duration="219000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="35015000" />
+    <option name="totallyTimeSpent" value="35234000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1280" y="23" width="1280" height="1359" extended-state="0" />
+    <frame x="0" y="23" width="1440" height="819" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4992636" visible="true" weight="0.44657096" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4992636" visible="true" weight="0.17538896" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.50073636" side_tool="true" weight="0.22135785" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -146,7 +151,7 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.17637408" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.17525773" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -229,8 +234,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="900">
-          <caret line="142" column="82" selection-start-line="142" selection-start-column="82" selection-end-line="142" selection-end-column="82" />
+        <state relative-caret-position="253">
+          <caret line="11" column="22" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
           <folding>
             <element signature="n#style#0;n#small#0;n#div#0;n#form#0;n#div#0;n#div#0;n#div#0;n#template#4;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#small#0;n#div#1;n#form#0;n#div#0;n#div#0;n#div#0;n#template#4;n#body#0;n#html#0;n#!!top" expanded="true" />
