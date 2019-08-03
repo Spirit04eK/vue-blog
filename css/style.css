@@ -1,0 +1,30 @@
+.current {
+    color: #FF8A8A;
+    border: 1px solid #FF8A8A;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.current:hover {
+    color: #FF8A8A;
+    border: 1px solid #FF8A8A;
+}
+
+.modal {
+    display: block;
+    background: rgba(1,1,1, 0.5);
+}
+
+.user_name{
+    font-size:14px;
+    font-weight: bold;
+}
+.comments-list .media{
+    border-bottom: 1px dotted #ccc;
+}
+
+@media (min-width: 576px) {
+    .modal-dialog {
+        max-width: 700px;
+    }
+}

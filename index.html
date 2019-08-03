@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test vue</title>
+    <!--include bootstrap 4-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--include my style's-->
+    <link rel="stylesheet" href="css/style.css">
+    <!--include lib axios-->
+    <script src="lib/axios.min.js"></script>
+    <!--include vue-->
+    <script src="lib/vue.js"></script>
+</head>
+<body>
+    <!--Post-->
+    <template id="post">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mt-2">
+                        <div class="card-header">
+                            <button type="button"
+                                    class="btn btn-secondary"
+                                    @click="$emit('close')"><- Back to posts</button>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">{{post.title}}</h3>
+                            <p class="card-text">{{post.body}}.</p>
+                            <h4>Comments <small>{{comments.length}}</small></h4>
+                            <div class="comments-list">
+                                <div class="media mt-3 pb-2" v-for="(comment, index) in comments">
+                                    <img :src="'http://lorempixel.com/40/40/people/' + index"
+                                         class="mr-3">
+                                    <div class="media-body">
+                                        <h5 class="mt-0">{{comment.name}} // {{comment.email}}</h5>
+                                        {{comment.body}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!--Template for pagination-->
+    <template id="pagination-template">
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center mt-3">
+                <!--button previous page-->
+                <li class="page-item" style="margin-right: 40px">
+                    <a class="page-link"
+                       v-if="hasPrev()"
+                       href="#"
+                       @click="changePage(prevPage)"
+                    >Previous</a>
+                </li>
+                <!--fast transition to the first-->
+                <li v-if="hasFirst()" class="page-item" style="margin-right: 20px">
+                    <a href="#" class="page-link" @click="changePage(1)">1</a>
+                </li>
+                <!--adjacent values left and right-->
+                <li class="page-item" v-for="page in pages">
+                    <a href="#"
+                       class="page-link"
+                       :class="{ current: current == page }"
+                       @click="changePage(page)">
+                        {{page}}
+                    </a>
+                </li>
+                <!--fast transition to the last-->
+                <li v-if="hasLast()" class="page-item" style="margin-left: 20px">
+                    <a href="#" class="page-link" @click="changePage(totalPages)">{{totalPages}}</a>
+                </li>
+                <!--button next page-->
+                <li class="page-item" style="margin-left: 40px">
+                    <a class="page-link" v-if="hasNext()" href="#" @click="changePage(nextPage)">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </template>
+
+    <!--Template for modal comment-->
+    <template id="modal-comment-template">
+        <div class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Comments: {{commentAll.length}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="$emit('close')">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="comments-list">
+                            <div class="media mt-3 pb-2" v-for="(comment, index) in commentAll">
+                                <img :src="'http://lorempixel.com/40/40/people/' + index"
+                                     class="mr-3">
+                                <div class="media-body">
+                                    <h5 class="mt-0">{{comment.name}} // {{comment.email}} </h5>
+                                    {{comment.body}}
+                                    <br>
+                                    <small>for postID: <cite title="Source Title">{{comment.postId}}</cite></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!--Template for modal user-->
+    <template id="modal-user-template">
+        <div class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">User</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="$emit('close')">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h1 class="text-center">UserID = {{userId}}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!--Template for create new post-->
+    <template id="create-post">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="mt-3">Create new post</h3>
+                    <form class="mt-3">
+                        <div class="form-group">
+                            <label for="titlePost">Title post</label>
+                            <input type="text" class="form-control" id="titlePost" v-model="titlePost">
+                            <small style="color: red;" v-if="errors.title">Поле не заполнено</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="textPost">Text post</label>
+                            <textarea class="form-control" id="textPost" rows="3" v-model="textPost"></textarea>
+                            <small style="color: red;" v-if="errors.text">Поле не заполнено</small>
+                        </div>
+                        <div class="form-group">
+                            <div class="mx-auto" style="width: 143px">
+                                <button type="button"
+                                        class="btn btn-secondary"
+                                        @click="$emit('close')">
+                                    Cancel
+                                </button>
+                                <button type="button"
+                                        class="btn btn-primary"
+                                        @click="savePost">
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!--App-->
+    <div id="app">
+        <!--Component comment-->
+        <modal-comment v-if="modalComment"
+               @close="showModalComment"
+               :comment-all="comment"
+        >
+        </modal-comment>
+
+        <!--Component user-->
+        <modal-user v-if="modalUser"
+                    @close="showModalUser"
+                    :user-id="userId">
+        </modal-user>
+
+        <!--Component post-->
+        <post v-if="post"
+              @close="showPost"
+              :post="postValue"
+              :comments="postComment">
+        </post>
+
+
+        <!--Button create post-->
+        <div class="container" v-if="buttonCreatePost">
+            <div class="row mt-2 mb-2">
+                <button type="button"
+                        class="btn btn-primary mx-auto"
+                        @click="showCreatePost">
+                    Create post
+                </button>
+            </div>
+        </div>
+
+        <!--Form for create new post-->
+        <create-post v-if="createPost"
+                     @close="showCreatePost">
+
+        </create-post>
+
+        <!--Table for data-->
+        <table class="table" v-if="table">
+            <thead>
+                <tr>
+                    <th scope="col" class="text-left">ID</th>
+                    <th scope="col" class="text-center">Title</th>
+                    <th scope="col" class="text-center">Comments</th>
+                    <th scope="col" class="text-right">Author</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="post in currentPosts">
+                    <th scope="row" class="text-left">{{post.id}}</th>
+                    <td class="text-center"><a href="#" @click="showPost(post.id)">{{post.title}}</a></td>
+                    <td class="text-center"><a href="#" @click="showModalComment(post.id)">Comments</a></td>
+                    <td class="text-right"><a href="#" @click="showModalUser(post.userId)">Author [{{post.userId}}]</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!--Component pagination-->
+        <pagination
+                v-if="table"
+                :current="currentPage"
+                :total="totalPost"
+                :per-page="perPage"
+                @page-changed="fetchPosts">
+        </pagination>
+
+    </div>
+
+    <!--include script file-->
+    <script src="js/create-post.js"></script>
+    <script src="js/post.js"></script>
+    <script src="js/modal-comment.js"></script>
+    <script src="js/modal-user.js"></script>
+    <script src="js/pagination.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
